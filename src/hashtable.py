@@ -51,7 +51,14 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+
+        index = self._hash_mod(key)
+
+        if self.storage[index] != None:
+            print(f"Warning, overwriting data at {index}")
+        
+        self.storage[index] = LinkedPair(key, value)
+        
 
 
 
@@ -63,7 +70,13 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        index = self._hash_mod(key)
+
+        if self.storage[index] == None:
+            print(f"Warning: key not found")
+            return
+
+        self.storage[index] = None
 
 
     def retrieve(self, key):
@@ -74,7 +87,15 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        index = self._hash_mod(key)
+        if self.storage[index] != None:
+            if self.storage[index].key == key:
+                return self.storage[index].value
+            else:
+                print(f"Warning: key doesn't match")
+                return None
+        else:
+            return None
 
 
     def resize(self):
@@ -84,7 +105,13 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        self.capacity *= 2
+        new_storage = [None] * self.capacity
+
+        for item in self.storage:
+            if item is not None:
+                new_index = self._hash_mod(item.key)
+                new_storage[new_index] = LinkedPair(item.key, item.value)
 
 
 
